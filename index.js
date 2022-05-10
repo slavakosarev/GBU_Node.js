@@ -10,7 +10,6 @@ const isPrime = (number) => {
          return false;
       }
    }
-   primeCount += 1;
    return true;
 };
 
@@ -20,31 +19,31 @@ let colorCount = 1;
 const from = process.argv[2];
 const to = process.argv[3];
 
-for (let number = from; number <= to; number++) {
+if (isNaN(from) || isNaN(to) === true) {
+   console.error(colors.red("Is not a number!"))
+} else {
 
-   let colorer = colors.green;
+   for (let number = from; number <= to; number++) {
 
-   if (isNaN(number) === true) {
+      let colorer = colors.green;
 
-      console.error(colors.red("Is not a number!"));
-      break;
-   }
-
-   if (isPrime(number)) {
-
-      if (colorCount % 2 === 0) {
-         colorer = colors.yellow;
-         colorCount += 1;
-      } else if (colorCount % 3 === 0) {
-         colorer = colors.red;
-         colorCount = 1;
-      } else {
-         colorCount += 1;
+      if (isPrime(number)) {
+         primeCount += 1;
+         if (colorCount % 2 === 0) {
+            colorer = colors.yellow;
+            colorCount += 1;
+         } else if (colorCount % 3 === 0) {
+            colorer = colors.red;
+            colorCount = 1;
+         } else {
+            colorCount += 1;
+         }
+         console.log(colorer(number));
       }
-      console.log(colorer(number));
+   }
+   if (primeCount === 0) {
+      console.error(colors.red("Prime numbers - not found!"));
    }
 };
 
-if (primeCount === 0) {
-   console.error(colors.red("Prime numbers - not found!"));
-};
+
