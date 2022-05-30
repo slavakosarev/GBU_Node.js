@@ -10,6 +10,11 @@ const timer = () => {
    let now = new Date();
    let diff = userDate - now;
 
+   if (diff === 0) {
+      console.log('Time is over');
+      return
+   }
+
    year = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
    day = Math.floor(diff / (1000 * 60 * 60 * 24));
    hour = Math.floor(diff / (1000 * 60 * 60));
