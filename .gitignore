@@ -11,3 +11,5 @@ jspm_packages/
 # Optional npm cache directory
 .npm
 
+# Code to learn
+index.js
