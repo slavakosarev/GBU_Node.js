@@ -1,35 +1,35 @@
-const socket = require("socket.io");
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
-const server = http.createServer((req, res) => {
-   const indexPath = path.join(__dirname, "./index.html");
-   const readStream = fs.createReadStream(indexPath);
-   readStream.pipe(res);
+app.get('/', function (req, res) {
+   res.sendFile(__dirname + '/index.html');
 });
 
-const io = socket(server);
 
 const connections = [];
-console.log(connections);
 
-
-io.on('connection', (client) => {
-   io.emit('connected', { client: data.client })
+io.on('connection', (socket) => {
    console.log("connected");
-   connections.push(client);
+   connections.push(socket.client.id);
+   console.log(connections);
 
-   client.on('disconnect', (data) => {
-      io.emit('disconnected', { client: data.client })
-      connections.splice(connections.indexOf(client), 1);
+   socket.on('disconnect', () => {
+      connections.splice(connections.indexOf(socket.client.id), 1);
       console.log("disconnected");
-      console.log(data);
+      console.log(connections);
+
    });
-   client.broadcast.emit("send mess", data);
-   client.on('send mess', (data) => {
-      io.emit('add mess', { mess: data.mess, name: data.name, className: data.className });
+   // client.broadcast.emit("send mess", data);
+   socket.on('send mess', (data) => {
+      io.emit('add mess', {
+         mess: data.mess,
+         name: data.name,
+         className: data.className
+      });
    });
 });
 
-server.listen(8080);
+server.listen(8088);
