@@ -9,12 +9,7 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
    <script src="/socket.io/socket.io.js"></script>
    <title>Socket.IO chat</title>
-   <style>
-      /* .bg-success {
-         --bs-bg-opacity: 1;
-         background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
-      } */
-   </style>
+
 </head>
 <pre src="favicon.ico"></pre>
 
@@ -48,7 +43,7 @@
             </form>
          </div>
          <div class=" col-6">
-                  <div id="status">status</div>
+                  <div id="status"> User status</div>
                   <div id="all_mess"></div>
          </div>
       </div>
@@ -86,7 +81,7 @@
       const form = document.getElementById("messForm");
       const name = document.getElementById("name");
       const textarea = document.getElementById("message");
-      // const status = document.getElementById("status");
+      const status = document.getElementById("status");
       const all_messages = document.getElementById("all_mess");
 
       form.addEventListener('submit', (event) => {
@@ -102,13 +97,9 @@
          textarea.value = "";
       });
 
-
-      // socket.on('disconnected', (data) => {
-      //    status.append("<p>" + data.client + "disconnected" + "</p>");
-      // });
-      // socket.on('connected', (data) => {
-      //    status.append("<p>" + data.client + "connected !" + "</p>");
-      // })
+      socket.on('usercount', (data) => {
+         status.innerHTML = `<p class="text-success"><b>${data} users online !<b></p>`;
+      });
       socket.on('add mess', (data) => {
          let div = document.createElement('div');
          div.innerHTML = `
