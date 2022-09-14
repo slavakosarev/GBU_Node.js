@@ -9,9 +9,11 @@ const isFile = (filepath) => {
 }
 
 http.createServer(async (req, res) => {
+
    const query = url.parse(req.url, true);
-   let queryPath = query.pathname === "/" ? "" : query.pathname
+   let queryPath = query.pathname === "/" ? "" : query.pathname;
    const navPath = path.join(__dirname, queryPath);
+
    if (!existsSync(navPath)) return res.end('File or directory not found');
    if (isFile(navPath)) {
       const data = await fs.readFile(navPath)
